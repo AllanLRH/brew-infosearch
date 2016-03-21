@@ -28,7 +28,7 @@ if stdout:
             subprocess.call(('brew cask info ' + el).split())
         else:
             subprocess.call(('brew info ' + el).split())
-        if i < len(stdout):
+        if i < len(stdout)-1:
             print('\n' + '≈'*79)
 else:
     print('No results found.')
