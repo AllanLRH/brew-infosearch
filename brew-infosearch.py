@@ -26,6 +26,7 @@ if stderr:
 
 # Call brew-info command if any search results were returned
 if stdout:
+    notPrintetList = list()
     PRINTLINE = False
     for i, el in enumerate(stdout):
         print('')
@@ -35,10 +36,17 @@ if stdout:
             if prefix in brewTapList:
                 subprocess.call(['brew', prefix, 'info', el])
                 PRINTLINE = True
+            else:
+                notPrintetList.append(el)
         else:
             subprocess.call(('brew info ' + el).split())
             PRINTLINE = True
         if i < len(stdout)-2 and PRINTLINE:
             print('\n' + '≈'*79)
+    if notPrintetList:
+        print('\n' + '≈'*79)
+        print('The following search results were found in untapped taps:', end='\n\n')
+        for el in notPrintetList:
+            print('\t' + el)
 else:
     print('No results found.')
