@@ -31,19 +31,19 @@ if stdout:
     for i, el in enumerate(stdout):
         print('')
         m = tapRx.match(el)
-        if m:
-            prefix = m.groups()[0]
+        if m:  # if search result is in a tap or cask
+            prefix = m.groups()[0]  # obtain prefix for info, e.g. `brew cask info ...`
             if prefix in brewTapList:
                 subprocess.call(['brew', prefix, 'info', el])
                 PRINTLINE = True
-            else:
+            else:  # Save result if it's in an untapped tap or cask is not installed
                 notPrintetList.append(el)
-        else:
+        else:  # search result is a regular brew result
             subprocess.call(('brew info ' + el).split())
             PRINTLINE = True
-        if i < len(stdout)-2 and PRINTLINE:
+        if i < len(stdout)-2 and PRINTLINE:  # print line seperating info calls
             print('\n' + '≈'*79)
-    if notPrintetList:
+    if notPrintetList:  # Print results from notPrintetList
         print('\n' + '≈'*79)
         print('The following search results were found in untapped taps:', end='\n\n')
         for el in notPrintetList:
